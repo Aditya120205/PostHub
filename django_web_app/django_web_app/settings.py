@@ -8,14 +8,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Build paths inside the project
+
+# --------------------------------------------------
+# Base directory
+# --------------------------------------------------
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# --------------------------------------------------
+# Security
+# --------------------------------------------------
+
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# We will change this to False when deploying
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [
@@ -27,7 +33,9 @@ if os.getenv('RENDER_EXTERNAL_HOSTNAME'):
     ALLOWED_HOSTS.append(os.getenv('RENDER_EXTERNAL_HOSTNAME'))
 
 
+# --------------------------------------------------
 # Application definition
+# --------------------------------------------------
 
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
@@ -36,21 +44,27 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
 
-     'cloudinary',
-    'cloudinary_storage',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Cloudinary
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
+
+# --------------------------------------------------
+# Middleware
+# --------------------------------------------------
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -60,8 +74,16 @@ MIDDLEWARE = [
 ]
 
 
+# --------------------------------------------------
+# URLs
+# --------------------------------------------------
+
 ROOT_URLCONF = 'django_web_app.urls'
 
+
+# --------------------------------------------------
+# Templates
+# --------------------------------------------------
 
 TEMPLATES = [
     {
@@ -80,10 +102,16 @@ TEMPLATES = [
 ]
 
 
+# --------------------------------------------------
+# WSGI
+# --------------------------------------------------
+
 WSGI_APPLICATION = 'django_web_app.wsgi.application'
 
 
+# --------------------------------------------------
 # Database
+# --------------------------------------------------
 
 DATABASES = {
     'default': dj_database_url.parse(
@@ -92,7 +120,9 @@ DATABASES = {
 }
 
 
+# --------------------------------------------------
 # Password validation
+# --------------------------------------------------
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -110,7 +140,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# --------------------------------------------------
 # Internationalization
+# --------------------------------------------------
 
 LANGUAGE_CODE = 'en-us'
 
@@ -123,19 +155,27 @@ USE_L10N = True
 USE_TZ = True
 
 
+# --------------------------------------------------
 # Static files
+# --------------------------------------------------
 
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# Media files (uploaded images/files)
+# --------------------------------------------------
+# Media files
+# --------------------------------------------------
+
+MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_URL = '/media/'
+
+# --------------------------------------------------
+# Storage
+# --------------------------------------------------
 
 STORAGES = {
     'default': {
@@ -147,30 +187,37 @@ STORAGES = {
 }
 
 
+# --------------------------------------------------
 # Cloudinary
+# --------------------------------------------------
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
+# --------------------------------------------------
 # Crispy Forms
+# --------------------------------------------------
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 
 
+# --------------------------------------------------
 # Authentication
+# --------------------------------------------------
 
 LOGIN_REDIRECT_URL = 'blog-home'
 
 LOGIN_URL = 'login'
 
 
-# Default primary key field type
+# --------------------------------------------------
+# Default primary key
+# --------------------------------------------------
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
