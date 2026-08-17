@@ -18,7 +18,17 @@ class Post(models.Model):
 		name, extension = os.path.splitext(self.file.name)
 		return extension
 
+	def download_url(self):
+		# Cloudinary URLs live on a different origin than the site, so the
+		# HTML `download` attribute is ignored by browsers (it only works
+		# same-origin). Adding the fl_attachment flag tells Cloudinary's
+		# CDN to send the file back with a Content-Disposition: attachment
+		# header, which forces an actual download instead of opening the
+		# file in the browser.
+		url = self.file.url
+		if '/upload/' in url and 'fl_attachment' not in url:
+			url = url.replace('/upload/', '/upload/fl_attachment/', 1)
+		return url
+
 	def get_absolute_url(self):
 		return reverse('post-detail', kwargs={'pk': self.pk})
-
-        
